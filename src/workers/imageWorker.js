@@ -6,7 +6,7 @@ import { processImage } from '../services/imageProcessor.js';
 
 const imageWorker = new Worker(IMAGE_QUEUE_NAME, async (job) => {
     try {        
-        const resultImage = await processImage(job.data);
+        const resultImage = await processImage(job);
         
         // Clean up the original uploaded file to save disk space
         await fs.unlink(job.data.path);

@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs/promises';
 
 export const processImage = async (image) => {
-    const { path: inputPath, id } = image;
+    const { path: inputPath, id } = image.data;
     const OUTPUT_DIR = 'output';
 
     

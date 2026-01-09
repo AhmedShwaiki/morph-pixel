@@ -28,20 +28,22 @@ app.post('/upload', upload.single('image'), async (req, res) => {
             id: jobId,
             originalName: req.file.originalname,
             path: req.file.path,
-            mimeType: req.file.mimetype,
-            options: {
-                attempts: 3,
-                backoff: {
-                    type: 'exponential',
-                    delay: 1000,
-                },
-                // opts to reduce memory usage
-                removeOnComplete: { count: 100 }, // Keep only the last 100 successful jobs
-                removeOnFail: { age: 24 * 3600 }   // Keep failed jobs for 24 hours for debugging
+            mimeType: req.file.mimetype, 
+        },
+        {
+            jobId,
+            backoff: {
+                type: 'exponential',
+                delay: 1000,
             },
+            kl: 100,
+            idof: true,
+            fpof: true,
+            de: {
+                replace: true,
+            }
         });
-
-        res.status(202).json({ message: 'Image uploaded', jobId: job.id });
+        res.status(202).json({ message: 'Image uploaded', jobId: job.data.id });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
@@ -50,7 +52,6 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
 app.get('/status/:jobId', async (req, res) => {
     const { jobId } = req.params;
-  
     const job = await imageQueue.getJob(jobId);
   
     if (!job) {
