@@ -12,12 +12,16 @@
   "license": "MIT",
   "author": "Ahmed Shwaiki",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "bullmq": "^5.66.4",
+    "express": "^5.2.1",
+    "multer": "^2.0.2",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
