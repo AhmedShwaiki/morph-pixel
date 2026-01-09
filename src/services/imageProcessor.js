@@ -16,6 +16,7 @@ export const processImage = async (image) => {
 
     try {
     // 1. Process the image in two formats: webp and mobile
+    await image.updateProgress(10);
     await Promise.all([
         sharp(inputPath)
             .webp({ quality: 80 })
@@ -26,13 +27,16 @@ export const processImage = async (image) => {
             .toFile(mobilePath),
     ]);
 
+
     // 2. Generate the thumbnail
+    await image.updateProgress(50);
     const placeholder = await sharp(inputPath)
     .resize(10) 
     .toBuffer();
     const blurData = `data:image/png;base64,${placeholder.toString('base64')}`;
 
     // 3. Return the assets
+    await image.updateProgress(100);
     return {
         success: true,
         assets: {

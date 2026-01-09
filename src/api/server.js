@@ -41,11 +41,34 @@ app.post('/upload', upload.single('image'), async (req, res) => {
             },
         });
 
-        res.status(200).json({ message: 'Image uploaded', jobId: job.id });
+        res.status(202).json({ message: 'Image uploaded', jobId: job.id });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
+});
+
+app.get('/status/:jobId', async (req, res) => {
+    const { jobId } = req.params;
+  
+    const job = await imageQueue.getJob(jobId);
+  
+    if (!job) {
+      return res.status(404).json({ error: 'Job not found in the system.' });
+    }
+  
+    const state = await job.getState(); /* waiting, active, completed, failed, delayed */
+    
+    const result = job.returnvalue; 
+    const reason = job.failedReason;
+    
+    res.status(200).json({
+        id: jobId,
+        status: state,
+        processed: state === 'completed',
+        data: result || null,
+        error: reason || null
+    });
 });
 
 app.get('/health', (req, res) => {
