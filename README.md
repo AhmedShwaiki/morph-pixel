@@ -1,3 +1,6 @@
+
+![pixel-art-diamond-icon-free-vector(1)](https://github.com/user-attachments/assets/358db21a-4824-4d1a-af36-8ae1fccbe87d)
+
 # Morph Pixel
 
 **Async Image Processing API** - A Node.js service that processes images asynchronously, converting them into multiple optimized formats (WebP and mobile-optimized JPEG) with automatic blur placeholder generation.
