@@ -1,8 +1,8 @@
 # morph-pixel
 
-# Project Structure
+## Project Structure
 
-asset-pipeline/
+root/
 ├── src/
 │   ├── api/            # Express routes and controllers
 │   ├── queues/         # BullMQ queue definitions

@@ -1,0 +1,25 @@
+{
+  "name": "morph-pixel",
+  "version": "1.0.0",
+  "homepage": "https://github.com/AhmedShwaiki/morph-pixel#readme",
+  "bugs": {
+    "url": "https://github.com/AhmedShwaiki/morph-pixel/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhmedShwaiki/morph-pixel.git"
+  },
+  "license": "MIT",
+  "author": "Ahmed Shwaiki",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
