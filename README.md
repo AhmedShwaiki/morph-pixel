@@ -1,4 +1,3 @@
-
 ![pixel-art-diamond-icon-free-vector(1)](https://github.com/user-attachments/assets/358db21a-4824-4d1a-af36-8ae1fccbe87d)
 
 # Morph Pixel
@@ -33,35 +32,40 @@ Morph Pixel is an asynchronous image processing service built with Express, Bull
 ## Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/AhmedShwaiki/morph-pixel.git
    cd morph-pixel
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Install and start Redis**
-   
+
    On Linux Mint/Ubuntu:
+
    ```bash
    sudo apt update
    sudo apt install redis-server
    sudo systemctl start redis-server
    sudo systemctl enable redis-server
    ```
-   
+
    Verify Redis is running:
+
    ```bash
    redis-cli ping
    # Should return: PONG
    ```
 
 4. **Configure environment variables** (optional)
-   
+
    Create a `.env` file in the root directory:
+
    ```env
    PORT=3000
    REDIS_HOST=localhost
@@ -107,6 +111,7 @@ curl -X POST http://localhost:3000/upload \
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Image uploaded",
@@ -121,6 +126,7 @@ curl http://localhost:3000/status/550e8400-e29b-41d4-a716-446655440000
 ```
 
 **Response (when completed):**
+
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",

@@ -1,8 +1,8 @@
 {
-    "testEnvironment": "node",
-    "transform": {
-        "^.+\\.js$": ["babel-jest"]
-    },
-    "verbose": true,
-    "collectCoverage": true
+  "testEnvironment": "node",
+  "transform": {
+    "^.+\\.js$": ["babel-jest"]
+  },
+  "verbose": true,
+  "collectCoverage": true
 }

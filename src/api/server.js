@@ -13,63 +13,65 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 // Routes
 const upload = multer({ dest: 'uploads/' });
 app.post('/upload', upload.single('image'), async (req, res) => {
-    try {
-        const image = req.file;
-        if (!image) {
-            return res.status(400).json({ message: 'No image provided' });
-        }
-
-        const jobId = uuidv4();
-        const job = await imageQueue.add(IMAGE_QUEUE_NAME, {
-            id: jobId,
-            originalName: req.file.originalname,
-            path: req.file.path,
-            mimeType: req.file.mimetype, 
-        },
-        {
-            jobId,
-            backoff: {
-                type: 'exponential',
-                delay: 1000,
-            },
-            kl: 100,
-            idof: true,
-            fpof: true,
-            de: {
-                replace: true,
-            }
-        });
-        res.status(202).json({ message: 'Image uploaded', jobId: job.data.id });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+  try {
+    const image = req.file;
+    if (!image) {
+      return res.status(400).json({ message: 'No image provided' });
     }
+
+    const jobId = uuidv4();
+    const job = await imageQueue.add(
+      IMAGE_QUEUE_NAME,
+      {
+        id: jobId,
+        originalName: req.file.originalname,
+        path: req.file.path,
+        mimeType: req.file.mimetype,
+      },
+      {
+        jobId,
+        backoff: {
+          type: 'exponential',
+          delay: 1000,
+        },
+        kl: 100,
+        idof: true,
+        fpof: true,
+        de: {
+          replace: true,
+        },
+      },
+    );
+    res.status(202).json({ message: 'Image uploaded', jobId: job.data.id });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 app.get('/status/:jobId', async (req, res) => {
-    const { jobId } = req.params;
-    const job = await imageQueue.getJob(jobId);
-  
-    if (!job) {
-      return res.status(404).json({ error: 'Job not found in the system.' });
-    }
-  
-    const state = await job.getState(); /* waiting, active, completed, failed, delayed */
-    
-    const result = job.returnvalue; 
-    const reason = job.failedReason;
-    
-    res.status(200).json({
-        id: jobId,
-        status: state,
-        processed: state === 'completed',
-        data: result || null,
-        error: reason || null
-    });
+  const { jobId } = req.params;
+  const job = await imageQueue.getJob(jobId);
+
+  if (!job) {
+    return res.status(404).json({ error: 'Job not found in the system.' });
+  }
+
+  const state = await job.getState(); /* waiting, active, completed, failed, delayed */
+
+  const result = job.returnvalue;
+  const reason = job.failedReason;
+
+  res.status(200).json({
+    id: jobId,
+    status: state,
+    processed: state === 'completed',
+    data: result || null,
+    error: reason || null,
+  });
 });
 
 app.get('/health', (req, res) => {

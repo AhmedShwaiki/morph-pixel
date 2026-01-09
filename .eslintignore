@@ -1,0 +1,8 @@
+node_modules
+coverage
+output
+uploads
+package-lock.json
+*.config.js
+babel.config.json
+.env
