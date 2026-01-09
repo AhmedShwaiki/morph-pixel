@@ -21,6 +21,7 @@
     "bullmq": "^5.66.4",
     "express": "^5.2.1",
     "multer": "^2.0.2",
+    "sharp": "^0.34.5",
     "uuid": "^13.0.0"
   },
   "devDependencies": {

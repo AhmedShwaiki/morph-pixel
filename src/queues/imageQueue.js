@@ -1,6 +1,6 @@
 import { Queue } from 'bullmq';
-import { redisConnection } from './connections.js';
+import { redisConnection, IMAGE_QUEUE_NAME } from './connections.js';
 
-export const imageQueue = new Queue('image-queue', {
+export const imageQueue = new Queue(IMAGE_QUEUE_NAME, {
     connection: redisConnection,
 });

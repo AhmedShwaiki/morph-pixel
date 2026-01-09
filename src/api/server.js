@@ -3,6 +3,7 @@ import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 
 import { imageQueue } from '../queues/imageQueue.js';
+import { IMAGE_QUEUE_NAME } from '../queues/connections.js';
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
         }
 
         const jobId = uuidv4();
-        const job = await imageQueue.add('image-transform', {
+        const job = await imageQueue.add(IMAGE_QUEUE_NAME, {
             id: jobId,
             originalName: req.file.originalname,
             path: req.file.path,
@@ -33,8 +34,11 @@ app.post('/upload', upload.single('image'), async (req, res) => {
                 backoff: {
                     type: 'exponential',
                     delay: 1000,
-                }
-            }
+                },
+                // opts to reduce memory usage
+                removeOnComplete: { count: 100 }, // Keep only the last 100 successful jobs
+                removeOnFail: { age: 24 * 3600 }   // Keep failed jobs for 24 hours for debugging
+            },
         });
 
         res.status(200).json({ message: 'Image uploaded', jobId: job.id });
